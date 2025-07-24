@@ -19,7 +19,7 @@ public protocol PuzzleAbstractUIComponent: AnyObject {
 
     var decorateViewModel: PuzzleDecorationAbstractVM? { get set }
 
-    var decorateViewMargin: UIEdgeInsets { get set }
+    var decorateViewPadding: UIEdgeInsets { get set }
 
     var vmList: [PuzzleViewModelSizeProtocol] { get set }
 

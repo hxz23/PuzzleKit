@@ -18,7 +18,7 @@ public final class PuzzleHorizontalFlowComponent: PuzzleAbstractUIComponent {
 
     public var decorateViewModel: PuzzleDecorationAbstractVM?
 
-    public var decorateViewMargin: UIEdgeInsets = .zero
+    public var decorateViewPadding: UIEdgeInsets = .zero
 
     public var vmList: [PuzzleViewModelSizeProtocol] = []
 
@@ -41,7 +41,7 @@ public final class PuzzleHorizontalFlowComponent: PuzzleAbstractUIComponent {
         vmList = viewModels
         self.contentPadding = contentPadding
         self.decorateViewModel = decorateViewModel
-        self.decorateViewMargin = decorateViewMargin
+        decorateViewPadding = decorateViewMargin
         itemCount = viewModels.count
 
         self.itemHeight = itemHeight

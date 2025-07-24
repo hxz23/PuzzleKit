@@ -29,7 +29,7 @@ public final class PuzzleListViewComponent: PuzzleAbstractUIComponent {
 
     public var decorateViewModel: PuzzleDecorationAbstractVM?
 
-    public var decorateViewMargin: UIEdgeInsets = .zero
+    public var decorateViewPadding: UIEdgeInsets = .zero
 
     public var itemCount: Int {
         vms.count
@@ -45,7 +45,7 @@ public final class PuzzleListViewComponent: PuzzleAbstractUIComponent {
         self.space = space
         self.contentPadding = contentPadding
         self.decorateViewModel = decorateViewModel
-        self.decorateViewMargin = decorateViewMargin
+        decorateViewPadding = decorateViewMargin
     }
 
     public func update(_ width: CGFloat) {

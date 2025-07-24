@@ -72,7 +72,7 @@ public class PuzzleLayout: UICollectionViewLayout {
                     register(decorateViewModel.decorationViewClass(), forDecorationViewOfKind: decorateViewModel.decorationViewClass().description())
                 }
 
-                let decorateFrame = UIEdgeInsetsInsetRect(uiCpFrame, uiCp.decorateViewMargin) // uiCpFrame.inset(by: uiCp.decorateViewMargin)
+                let decorateFrame = UIEdgeInsetsInsetRect(uiCpFrame, uiCp.decorateViewPadding) // uiCpFrame.inset(by: uiCp.decorateViewMargin)
 
                 uiCp.extra.decorateViewFrameInCollectionView = decorateFrame
                 let decAttributes = PuzzleDecorationAttributes(forDecorationViewOfKind: decorateViewModel.decorationViewClass().description(), with: .init(item: 0, section: section))
