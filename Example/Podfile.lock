@@ -1,0 +1,28 @@
+PODS:
+  - MJRefresh (3.7.6)
+  - PuzzleKit (0.1.0):
+    - SnapKit
+  - SnapKit (5.6.0)
+
+DEPENDENCIES:
+  - MJRefresh
+  - PuzzleKit (from `../`)
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - MJRefresh
+    - SnapKit
+
+EXTERNAL SOURCES:
+  PuzzleKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  MJRefresh: 2fe7fb43a5167ceda20bb7e63f130c04fd1814a5
+  PuzzleKit: 869b1a60e582b63055ad1315484bd5c6554c2052
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+
+PODFILE CHECKSUM: 738199dcdbf3cb4c5d8a7848e4dfa8ea057c0497
+
+COCOAPODS: 1.11.3

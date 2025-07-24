@@ -1,13 +1,12 @@
 use_frameworks!
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 target 'PuzzleKit_Example' do
+  
   pod 'PuzzleKit', :path => '../'
+  
+  pod 'SnapKit'
+  pod 'MJRefresh'
 
-  target 'PuzzleKit_Tests' do
-    inherit! :search_paths
-
-    
-  end
 end
