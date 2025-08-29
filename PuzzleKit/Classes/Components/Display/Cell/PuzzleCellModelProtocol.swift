@@ -8,36 +8,21 @@
 import Foundation
 
 public protocol PuzzleCellModelProtocol: AnyObject {
+    var adapter: PuzzleCollectionViewAdapter? { get }
     /// weak
     var uiComponent: PuzzleDisplayComponent? { get set }
 
     func viewSize() -> CGSize
 
-    func createViewClass() -> UICollectionViewCell.Type
+    var frameInCollection: CGRect? { get set }
 
     var eventBus: PuzzleEventBus? { get set }
 
     func floatPriority() -> Int
 
-    var frameInCollection: CGRect? { get set }
-}
+    func isFloat() -> Bool
+    
+    func createViewClass() -> UICollectionViewCell.Type
 
-public extension PuzzleCellModelProtocol {
-    func isFloat() -> Bool {
-        floatPriority() > 0
-    }
-
-    var adapter: PuzzleCollectionViewAdapter? {
-        uiComponent?.logicComponent?.adapter
-    }
-}
-
-public extension PuzzleCellModelProtocol {
-    func reload(completion: @escaping (PuzzleCollectionViewAdapter.Completion)) {
-        uiComponent?.logicComponent?.adapter?.reload(completion: completion)
-    }
-
-    func performBatchUpdate(_ updates: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
-        uiComponent?.logicComponent?.adapter?.performBatchUpdate(updates, completion: completion)
-    }
+    func reload(completion: @escaping (PuzzleCollectionViewAdapter.Completion))
 }
