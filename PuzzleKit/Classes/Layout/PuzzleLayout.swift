@@ -8,12 +8,15 @@
 import Foundation
 
 public class PuzzleLayout: UICollectionViewLayout {
-    private(set) var uiComponents = [PuzzleAbstractUIComponent]()
+    private(set) var uiComponents = [PuzzleDisplayComponent]()
 
     public var floatOffset: CGFloat = 0
+    
     public var collectionViewMinHeight: CGFloat?
 
-    var collectionViewWidth: CGFloat = 0
+    var context = PuzzleContext(width: 0)
+    
+    var collectionViewWidth: CGFloat { context.width }
 //    1）-(void)prepareLayout  设置layout的结构和初始需要的参数等。
 //
 //    2)  -(CGSize) collectionViewContentSize 确定collectionView的所有内容的尺寸。
@@ -31,13 +34,13 @@ public class PuzzleLayout: UICollectionViewLayout {
     private var showAttributesMap = [CGRect: [UICollectionViewLayoutAttributes]]()
 
     // 浮动视图
-    private var floatAttributesList = [PuzzleItemViewAttributes]()
+    private var floatAttributesList = [PuzzleDisplayComponentCellAttributes]()
 
     override public func prepare() {
         super.prepare()
     }
 
-    func updateUIComponents(_ list: [PuzzleAbstractUIComponent]) {
+    func updateUIComponents(_ list: [PuzzleDisplayComponent]) {
         uiComponents = list
         showAttributesMap = [:]
         floatAttributesList = []
@@ -45,7 +48,7 @@ public class PuzzleLayout: UICollectionViewLayout {
         var startComponentY: CGFloat = 0
 
         for (section, uiCp) in uiComponents.enumerated() {
-            uiCp.update(collectionViewWidth)
+            uiCp.calContentSize(context)
             let uiCpFrame = CGRect(x: 0, y: startComponentY, width: collectionViewWidth, height: uiCp.contentSize.height)
             uiCp.extra.frameInCollectionView = uiCpFrame
             uiCp.extra.startY = uiCpFrame.minY
@@ -78,7 +81,7 @@ public class PuzzleLayout: UICollectionViewLayout {
                 let decAttributes = PuzzleDecorationAttributes(forDecorationViewOfKind: decorateViewModel.decorationViewClass().description(), with: .init(item: 0, section: section))
                 decAttributes.zIndex = 100
                 decAttributes.frame = decorateFrame
-                decAttributes.vm = decorateViewModel
+                decAttributes.viewModel = decorateViewModel
 
                 uiCp.extra.decorateViewAttributes = decAttributes
             }
@@ -126,7 +129,7 @@ public class PuzzleLayout: UICollectionViewLayout {
         return list
     }
 
-    func floatAttributes(in rect: CGRect, list: [PuzzleItemViewAttributes], isTop: Bool, isBottom: Bool) -> [UICollectionViewLayoutAttributes] {
+    func floatAttributes(in rect: CGRect, list: [PuzzleDisplayComponentCellAttributes], isTop: Bool, isBottom: Bool) -> [UICollectionViewLayoutAttributes] {
         guard list.isEmpty == false, rect.height > 0 else { return [] }
 
         var result = [UICollectionViewLayoutAttributes]()
@@ -137,7 +140,7 @@ public class PuzzleLayout: UICollectionViewLayout {
 
         if let maxPriority = floatList.map({ $0.viewModel.floatPriority() }).max() {
             // 每次选取视图中 倒序优先级最高的视图，它的位置是固定的，剩余的top bottom重复这个过程
-            var reverseMaxPriorityVM: PuzzleItemViewAttributes?
+            var reverseMaxPriorityVM: PuzzleDisplayComponentCellAttributes?
             var index: Int?
 
             for (i, vm) in floatList.enumerated().reversed() {
@@ -186,17 +189,19 @@ public class PuzzleLayout: UICollectionViewLayout {
                 width: rect.width,
                 height: currentAttribute.frame.minY - rect.minY
             )
-            var array = [PuzzleItemViewAttributes]()
+            var array = [PuzzleDisplayComponentCellAttributes]()
             for (i, vm) in floatList.enumerated() {
                 if i < index {
                     array.append(vm)
                 }
             }
 
-            result.append(contentsOf: floatAttributes(in: topFrame,
-                                                      list: array,
-                                                      isTop: isTop ? true : false,
-                                                      isBottom: false))
+            result.append(contentsOf: floatAttributes(
+                in: topFrame,
+                list: array,
+                isTop: isTop ? true : false,
+                isBottom: false
+            ))
 
             // 下面区域
             if currentAttribute.frame.maxY < rect.maxY {
@@ -207,17 +212,19 @@ public class PuzzleLayout: UICollectionViewLayout {
                     height: rect.maxY - currentAttribute.frame.maxY
                 )
 
-                var array = [PuzzleItemViewAttributes]()
+                var array = [PuzzleDisplayComponentCellAttributes]()
                 for (i, vm) in floatList.enumerated() {
                     if i > index {
                         array.append(vm)
                     }
                 }
 
-                result.append(contentsOf: floatAttributes(in: bottomFrame,
-                                                          list: array,
-                                                          isTop: isTop ? true : false,
-                                                          isBottom: isBottom ? true : false))
+                result.append(contentsOf: floatAttributes(
+                    in: bottomFrame,
+                    list: array,
+                    isTop: isTop ? true : false,
+                    isBottom: isBottom ? true : false
+                ))
             }
         }
 

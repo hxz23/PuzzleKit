@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'PuzzleKit'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of PuzzleKit.'
+  s.summary          = 'A flexible and powerful UI component framework for iOS development.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+PuzzleKit is a comprehensive UI component framework that simplifies complex layout management and provides reusable components for iOS applications. It offers a flexible architecture for building dynamic, scrollable interfaces with various component types including lists, grids, and custom views.
                        DESC
 
   s.homepage         = 'https://github.com/haoxuezhi/PuzzleKit'
@@ -30,8 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '12.0'
 
-  s.source_files = 'PuzzleKit/Classes/**/*'
-  
+  s.source_files = 'PuzzleKit/**/*'
   # s.resource_bundles = {
   #   'PuzzleKit' => ['PuzzleKit/Assets/*.png']
   # }

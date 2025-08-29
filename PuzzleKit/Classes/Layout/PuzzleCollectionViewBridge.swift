@@ -10,17 +10,17 @@ import Foundation
 public class PuzzleCollectionViewBridge: NSObject {
     weak var collectionView: UICollectionView?
 
-    weak var adapter: PuzzleAdapter?
+    weak var adapter: PuzzleCollectionViewAdapter?
 
     public let layout = PuzzleLayout()
 
-    private var uiComponents = [PuzzleAbstractUIComponent]()
+    private var uiComponents = [PuzzleDisplayComponent]()
 
-    private var sectionToUIComponentMap = [Int: PuzzleAbstractUIComponent]()
+    private var sectionToUIComponentMap = [Int: PuzzleDisplayComponent]()
 
     private var registeredCellIdentifiers = [String]()
 
-    func reload(completion: (PuzzleAdapter.Completion?) = nil) {
+    func reload(completion: (PuzzleCollectionViewAdapter.Completion?) = nil) {
         sectionToUIComponentMap.removeAll()
         uiComponents.removeAll()
 
@@ -29,14 +29,14 @@ public class PuzzleCollectionViewBridge: NSObject {
             collectionView?.layoutIfNeeded()
         }
         if let width: CGFloat = collectionView?.frame.width {
-            layout.collectionViewWidth = width
+            layout.context = PuzzleContext(width: width)
         }
 
         guard let logicList = adapter?.logicComponents else { return }
 
         var index = 0
 
-        let context = PuzzleContext(width: layout.collectionViewWidth)
+        let context = layout.context
 
         for loginCp in logicList {
             if let uiList = loginCp.dataSource?.uiComponents(puzzleContext: context) {
@@ -95,7 +95,7 @@ extension PuzzleCollectionViewBridge: UICollectionViewDataSource {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifiers, for: indexPath)
 
-        (cell as? PuzzleItemViewProtocol)?.update(attribute.viewModel)
+        (cell as? PuzzleCellProtocol)?.update(attribute.viewModel)
 
         return cell
     }
@@ -107,19 +107,19 @@ extension PuzzleCollectionViewBridge: UICollectionViewDelegate {
     }
 
     public func collectionView(_: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt _: IndexPath) {
-        if let new = cell as? PuzzleItemViewDisplayProtocol {
+        if let new = cell as? PuzzleCellProtocol {
             new.willDisplay()
         }
     }
 
     public func collectionView(_: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt _: IndexPath) {
-        if let new = cell as? PuzzleItemViewDisplayProtocol {
+        if let new = cell as? PuzzleCellProtocol {
             new.didEndDisplaying()
         }
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? PuzzleItemViewDidSelectedProtocol {
+        if let cell = collectionView.cellForItem(at: indexPath) as? PuzzleCellProtocol {
             cell.didSelected()
         }
     }

@@ -1,0 +1,14 @@
+--disable wrapMultiLineStatementBraces
+--disable hoistPatternLet
+--disable preferForLoop
+--disable consistentSwitchCaseSpacing
+
+--commas inline
+--ifdef no-indent
+--nospaceoperators ...,..<
+--stripunusedargs closure-only
+--trimwhitespace nonblank-lines
+--wraparguments before-first
+--wrapparameters before-first
+--redundanttype inferred
+--emptybraces spaced

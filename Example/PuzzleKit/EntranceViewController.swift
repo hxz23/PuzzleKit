@@ -23,32 +23,32 @@ class EntranceViewController: PuzzleBaseViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    override func logicComponents() -> [PuzzleLogicComponent] {
+    override func logicComponents() -> [PuzzleBusinessComponent] {
         [
-            component,
+            component
         ]
     }
 }
 
-class EntranceMainComponents: PuzzleLogicComponent {
+class EntranceMainComponents: PuzzleBusinessComponent {
     override func setup() {
         super.setup()
         dataSource = self
     }
 }
 
-extension EntranceMainComponents: PuzzleLogicComponentDatasource {
-    func uiComponents(puzzleContext _: PuzzleContext) -> [PuzzleAbstractUIComponent] {
+extension EntranceMainComponents: PuzzleBusinessComponentDatasource {
+    func uiComponents(puzzleContext _: PuzzleContext) -> [PuzzleDisplayComponent] {
         return [
-            PuzzleListViewComponent(vms: [
-                EntranceViewModel(entrance: .list),
-                EntranceViewModel(entrance: .grid),
-            ]),
+            PuzzleListDisplayComponent(viewModels: [
+                EntranceViewModel(entrance: .uiComponentDemo)
+//                EntranceViewModel(entrance: .grid),
+            ])
         ]
     }
 }
 
-class EntranceView: UICollectionViewCell, PuzzleItemViewProtocol {
+class EntranceView: UICollectionViewCell, PuzzleCellProtocol {
     let titleLabel = UILabel()
 
     override init(frame: CGRect) {
@@ -70,19 +70,32 @@ class EntranceView: UICollectionViewCell, PuzzleItemViewProtocol {
         }
     }
 
+    var viewModel: EntranceViewModel?
     func update(_ object: AnyObject) {
         guard let vm = object as? EntranceViewModel else { return }
+        viewModel = vm
 
         titleLabel.text = vm.entrance.rawValue
+    }
+
+    func didSelected() {
+        guard let vm = viewModel else { return }
+
+//        switch vm.entrance {
+//        case .uiComponentDemo:
+//            let vc = ComponentDemoViewController()
+//
+//        case .list:
+//        }
     }
 }
 
 enum Entrance: String {
-    case grid
+    case uiComponentDemo
     case list
 }
 
-class EntranceViewModel: PuzzleListViewAbstractionVM {
+class EntranceViewModel: PuzzleListCellModel {
     let entrance: Entrance
 
     init(entrance: Entrance) {

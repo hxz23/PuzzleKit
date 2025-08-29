@@ -12,14 +12,14 @@ extension UICollectionView {
         static var kAdapter = "kAdapter"
     }
 
-    var puzzleAdapter: PuzzleAdapter? {
+    var PuzzleCollectionViewAdapter: PuzzleCollectionViewAdapter? {
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.kAdapter, newValue, .OBJC_ASSOCIATION_RETAIN)
-            puzzleAdapter?.bind(self)
+            PuzzleCollectionViewAdapter?.bind(self)
         }
 
         get {
-            objc_getAssociatedObject(self, &AssociatedKeys.kAdapter) as? PuzzleAdapter
+            objc_getAssociatedObject(self, &AssociatedKeys.kAdapter) as? PuzzleCollectionViewAdapter
         }
     }
 }
