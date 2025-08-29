@@ -40,7 +40,7 @@ class EntranceMainComponents: PuzzleBusinessComponent {
 extension EntranceMainComponents: PuzzleBusinessComponentDatasource {
     func uiComponents(puzzleContext _: PuzzleContext) -> [PuzzleDisplayComponent] {
         return [
-            PuzzleListDisplayComponent(viewModels: [
+            PuzzleListComponent(viewModels: [
                 EntranceViewModel(entrance: .uiComponentDemo)
 //                EntranceViewModel(entrance: .grid),
             ])

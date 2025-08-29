@@ -7,6 +7,10 @@
 
 import Foundation
 
+public struct PuzzleContext {
+    public let width: CGFloat
+}
+
 public class PuzzleCollectionViewBridge: NSObject {
     weak var collectionView: UICollectionView?
 

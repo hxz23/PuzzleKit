@@ -10,13 +10,13 @@ import UIKit
 
 public class PuzzleCollectionViewAdapter {
     public typealias Completion = () -> Void
-
+    
     public weak var collectionView: UICollectionView?
-
+    
     public let bridge = PuzzleCollectionViewBridge()
-
+    
     public var eventBus = PuzzleEventBus()
-
+    
     public var logicComponents = [PuzzleBusinessComponent]() {
         didSet {
             for logicComponent in logicComponents {
@@ -28,21 +28,21 @@ public class PuzzleCollectionViewAdapter {
             }
         }
     }
-
+    
     static func collectionView(_ adapter: PuzzleCollectionViewAdapter) -> UICollectionView {
         let view = UICollectionView(frame: .zero, collectionViewLayout: adapter.bridge.layout)
         adapter.bind(view)
         return view
     }
-
+    
     // MARK: - public method
-
+    
     public func scroll(to viewModel: PuzzleCellModelProtocol, animated: Bool = false, offsetY: CGFloat = 0) {
         DispatchQueue.main.async {
             guard let targetFrame = viewModel.frameInCollection, let collectionView = self.collectionView else {
                 return
             }
-
+            
             var targetY: CGFloat
             if targetFrame.minY + collectionView.frame.height > collectionView.contentSize.height {
                 targetY = collectionView.contentSize.height - collectionView.frame.height
@@ -56,13 +56,13 @@ public class PuzzleCollectionViewAdapter {
             collectionView.setContentOffset(.init(x: 0, y: targetY), animated: animated)
         }
     }
-
+    
     public func scroll(to contentOffset: CGPoint, animated: Bool = false) {
         DispatchQueue.main.async {
             guard let collectionView = self.collectionView else {
                 return
             }
-
+            
             var targetY: CGFloat
             if contentOffset.y + collectionView.frame.height > collectionView.contentSize.height {
                 targetY = collectionView.contentSize.height - collectionView.frame.height
@@ -75,52 +75,52 @@ public class PuzzleCollectionViewAdapter {
             collectionView.setContentOffset(.init(x: 0, y: targetY), animated: animated)
         }
     }
-
+    
     public func reload(completion: @escaping (Completion)) {
         DispatchQueue.main.async {
             self.bridge.reload(completion: completion)
         }
     }
-
+    
     public func performBatchUpdate(_: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
         // fix crash: https://bugly.qq.com/v2/crash-reporting/crashes/692b559663/17002?pid=2&crashDataType=unSystemExit
-
-//        if let pre = self.collectionView?.numberOfSections, pre == bridge.currentSectionCount() {
-//            DispatchQueue.main.async {
-//                self.collectionView?.performBatchUpdates({ [weak self] in
-//                    updates?()
-//                    self?.bridge.reload {
-//
-//                    }
-//                }, completion: completion)
-//            }
-//        } else {
-//        DispatchQueue.main.async { [weak self] in
-//            self?.bridge.reload {}
-//        }
-//        }
+        
+        //        if let pre = self.collectionView?.numberOfSections, pre == bridge.currentSectionCount() {
+        //            DispatchQueue.main.async {
+        //                self.collectionView?.performBatchUpdates({ [weak self] in
+        //                    updates?()
+        //                    self?.bridge.reload {
+        //
+        //                    }
+        //                }, completion: completion)
+        //            }
+        //        } else {
+        //        DispatchQueue.main.async { [weak self] in
+        //            self?.bridge.reload {}
+        //        }
+        //        }
         reload {
             completion?(true)
         }
     }
-
+    
     // MARK: - private method
-
+    
     func bind(_ collectionView: UICollectionView) {
         self.collectionView = collectionView
         bridge.collectionView = collectionView
         bridge.adapter = self
-
+        
         collectionView.dataSource = bridge
         collectionView.delegate = bridge
     }
-
+    
     func puzzleViewDidScroll(scrollView: UIScrollView) {
         eventBus.broadcaster.notify(PuzzleCollectionViewAdapterEvent.self) {
             $0.puzzleViewDidScroll(scrollView)
         }
     }
-
+    
     // 刷新相关
     public var supportRefresh: Bool {
         if logicComponents.count > 0 {
@@ -129,12 +129,12 @@ public class PuzzleCollectionViewAdapter {
                 support = true
                 break
             }
-
+            
             return support
         }
         return false
     }
-
+    
     public var supportLoadMore: Bool {
         if logicComponents.count > 0 {
             var support = false
@@ -142,35 +142,29 @@ public class PuzzleCollectionViewAdapter {
                 support = true
                 break
             }
-
+            
             return support
         }
         return false
     }
-
+    
     public func refreshAction() {
         logicComponents.forEach { $0.refreshAction() }
     }
-
+    
     public func loadMoreAction() {
         logicComponents.forEach { $0.loadMoreAction() }
     }
-
+    
     public func endLoading(withNoData: Bool = false) {
         eventBus.broadcaster.notify(PuzzleCollectionViewAdapterEvent.self) {
             $0.endLoading(withNoData: withNoData)
         }
     }
-
+    
     public func updateSupportRefreshState() {
         eventBus.broadcaster.notify(PuzzleCollectionViewAdapterEvent.self) {
             $0.updateSupportRefreshState()
         }
     }
-
-//    // MARK: - 截图相关
-//
-//    public func snapshot() -> UIImage? {
-//        collectionView?.snapshot
-//    }
 }

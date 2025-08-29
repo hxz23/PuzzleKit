@@ -1,5 +1,5 @@
 //
-//  PuzzleListViewComponent.swift
+//  PuzzleListComponent.swift
 //  PuzzleKit
 //
 //  Created by 郝学智 on 2021/7/22.
@@ -14,7 +14,7 @@ public enum PuzzleSpace {
     case dynamicIndex(_ block: (_ index: Int) -> CGFloat)
 }
 
-public final class PuzzleListDisplayComponent: PuzzleDisplayComponent {
+public final class PuzzleListComponent: PuzzleDisplayComponent {
     public weak var logicComponent: PuzzleBusinessComponent?
 
     public var vmList: [PuzzleCellModelProtocol] = []
@@ -95,9 +95,9 @@ public final class PuzzleListDisplayComponent: PuzzleDisplayComponent {
     }
 }
 
-public extension PuzzleListDisplayComponent {
-    static func withTopMargin(_ value: CGFloat) -> PuzzleListDisplayComponent {
-        return PuzzleListDisplayComponent(
+public extension PuzzleListComponent {
+    static func withTopMargin(_ value: CGFloat) -> PuzzleListComponent {
+        return PuzzleListComponent(
             viewModels: [],
             space: .none,
             contentPadding: .init(top: value, left: 0, bottom: 0, right: 0),

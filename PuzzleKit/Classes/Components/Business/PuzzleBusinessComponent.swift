@@ -7,6 +7,10 @@
 
 import Foundation
 
+public protocol PuzzleBusinessComponentDatasource: AnyObject {
+    func uiComponents(puzzleContext: PuzzleContext) -> [PuzzleDisplayComponent]
+}
+
 open class PuzzleBusinessComponent {
     public weak var dataSource: PuzzleBusinessComponentDatasource?
 

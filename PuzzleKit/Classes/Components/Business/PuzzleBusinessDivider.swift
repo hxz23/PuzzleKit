@@ -22,7 +22,7 @@ public class PuzzleBusinessDivider: PuzzleBusinessComponent, PuzzleBusinessCompo
 
     public func uiComponents(puzzleContext _: PuzzleContext) -> [PuzzleDisplayComponent] {
         [
-            PuzzleListDisplayComponent(
+            PuzzleListComponent(
                 viewModels: [],
                 space: .none,
                 contentPadding: .init(top: height, left: 0, bottom: 0, right: 0),

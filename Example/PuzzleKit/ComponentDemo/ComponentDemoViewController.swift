@@ -38,7 +38,7 @@ class ComponentDemoComponents: PuzzleBusinessComponent {
 
     func listComponent() -> [PuzzleDisplayComponent] {
         return [
-            PuzzleListDisplayComponent(viewModels: [
+            PuzzleListComponent(viewModels: [
                 SectionTitleViewModel(title: "PuzzleListDisplayComponent")
             ])
         ]
