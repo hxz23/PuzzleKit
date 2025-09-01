@@ -25,4 +25,23 @@ public protocol PuzzleCellModelProtocol: AnyObject {
     func createViewClass() -> UICollectionViewCell.Type
 
     func reload(completion: @escaping (PuzzleCollectionViewAdapter.Completion))
+    
+    func updateHeight(with context: PuzzleUIComponentContext)
+}
+
+public extension PuzzleCellModelProtocol {
+    func updateHeight(with context: PuzzleUIComponentContext) { }
+}
+
+public struct PuzzleUIComponentContext {
+    public let puzzleViewWidth: CGFloat
+    public let contentMargin: UIEdgeInsets
+    
+    public var horizontalMargin: CGFloat {
+        return contentMargin.left + contentMargin.right
+    }
+    
+    public var viewWidth: CGFloat {
+        puzzleViewWidth - horizontalMargin
+    }
 }

@@ -26,11 +26,11 @@ public final class PuzzleWrapComponent: PuzzleDisplayComponent {
 
     public var itemCount = 0
 
-    public let itemHeight: CGFloat
+    public let rowHeight: CGFloat
 
-    public let itemSpacing: CGFloat
+    public let rowSpacing: CGFloat
 
-    public let lineSpacing: CGFloat
+    public let colSpacing: CGFloat
 
     public let viewModels: [PuzzleWrapCellModel]
 
@@ -38,9 +38,9 @@ public final class PuzzleWrapComponent: PuzzleDisplayComponent {
 
     public init(
         viewModels: [PuzzleWrapCellModel],
-        itemHeight: CGFloat,
-        itemSpacing: CGFloat,
-        lineSpacing: CGFloat,
+        rowHeight: CGFloat,
+        rowSpacing: CGFloat,
+        colSpacing: CGFloat,
         contentPadding: UIEdgeInsets = .zero,
         decorateViewModel: PuzzleDecorationViewModel? = nil,
         decorateViewMargin: UIEdgeInsets = .zero,
@@ -53,9 +53,9 @@ public final class PuzzleWrapComponent: PuzzleDisplayComponent {
         decorateViewPadding = decorateViewMargin
         itemCount = viewModels.count
 
-        self.itemHeight = itemHeight
-        self.itemSpacing = itemSpacing
-        self.lineSpacing = lineSpacing
+        self.rowHeight = rowHeight
+        self.rowSpacing = rowSpacing
+        self.colSpacing = colSpacing
         self.maxLines = maxLines
     }
 
@@ -82,15 +82,15 @@ public final class PuzzleWrapComponent: PuzzleDisplayComponent {
             if vm.width <= reminder { // 不换行
                 vm.displayWidth = vm.width
 
-                frameInComponent = CGRect(x: beginX, y: beginY, width: vm.displayWidth, height: itemHeight)
-                beginX = frameInComponent.maxX + itemSpacing
+                frameInComponent = CGRect(x: beginX, y: beginY, width: vm.displayWidth, height: rowHeight)
+                beginX = frameInComponent.maxX + rowSpacing
 
                 countOfLine += 1
             } else if countOfLine == 0 { // 不换行
                 vm.displayWidth = maxItemWidth
-                frameInComponent = CGRect(x: beginX, y: beginY, width: vm.displayWidth, height: itemHeight)
+                frameInComponent = CGRect(x: beginX, y: beginY, width: vm.displayWidth, height: rowHeight)
 
-                beginX = frameInComponent.maxX + itemSpacing
+                beginX = frameInComponent.maxX + rowSpacing
 
                 countOfLine += 1
             } else { // 换行
@@ -102,7 +102,7 @@ public final class PuzzleWrapComponent: PuzzleDisplayComponent {
                     break
                 }
 
-                beginY += itemHeight + lineSpacing
+                beginY += rowHeight + colSpacing
                 beginX = contentPadding.left
 
                 if vm.width > maxItemWidth {
@@ -111,9 +111,9 @@ public final class PuzzleWrapComponent: PuzzleDisplayComponent {
                     vm.displayWidth = vm.width
                 }
 
-                frameInComponent = CGRect(x: beginX, y: beginY, width: vm.displayWidth, height: itemHeight)
+                frameInComponent = CGRect(x: beginX, y: beginY, width: vm.displayWidth, height: rowHeight)
 
-                beginX = frameInComponent.maxX + itemSpacing
+                beginX = frameInComponent.maxX + rowSpacing
                 countOfLine += 1
             }
 

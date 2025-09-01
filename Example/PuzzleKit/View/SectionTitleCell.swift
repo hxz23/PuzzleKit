@@ -1,5 +1,5 @@
 //
-//  SectionTitleView.swift
+//  SectionTitleCell.swift
 //  PuzzleKit_Example
 //
 //  Created by 郝学智 on 2025/7/24.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SectionTitleView: UICollectionViewCell, PuzzleCellProtocol {
+class SectionTitleCell: UICollectionViewCell, PuzzleCellProtocol {
     let titleLabel = UILabel()
 
     override init(frame: CGRect) {
@@ -23,21 +23,23 @@ class SectionTitleView: UICollectionViewCell, PuzzleCellProtocol {
 
     private func setupUI() {
         contentView.addSubview(titleLabel)
-
+        titleLabel.font = UIFont.systemFont(ofSize: 16)
+        titleLabel.numberOfLines = 0
         titleLabel.snp.makeConstraints { make in
             make.left.equalTo(16)
+            make.right.equalTo(-16)
             make.centerY.equalToSuperview()
         }
     }
 
     func update(_ object: AnyObject) {
-        guard let vm = object as? SectionTitleViewModel else { return }
+        guard let vm = object as? SectionTitleCellModel else { return }
 
         titleLabel.text = vm.title
     }
 }
 
-class SectionTitleViewModel: PuzzleListCellModel {
+class SectionTitleCellModel: PuzzleListCellModel {
     let title: String
 
     init(title: String) {
@@ -49,6 +51,11 @@ class SectionTitleViewModel: PuzzleListCellModel {
     }
 
     override func createViewClass() -> UICollectionViewCell.Type {
-        SectionTitleView.self
+        SectionTitleCell.self
+    }
+    
+    func updateHeight(with context: PuzzleUIComponentContext) {
+        let textHeight = TextUtility.calculateTextHeight(title, font: UIFont.systemFont(ofSize: 16), maxWidth: context.viewWidth - 32)
+        height = textHeight + 20
     }
 }

@@ -43,6 +43,7 @@ class PuzzleBaseViewController: UIViewController {
     }
 
     func setupUI() {
+        view.backgroundColor = .white
         puzzleView.adapter.logicComponents = logicComponents()
         puzzleView.adapter.eventBus.broadcaster.register(PuzzleCollectionViewAdapterEvent.self, observer: self)
 

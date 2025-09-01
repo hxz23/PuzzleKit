@@ -7,18 +7,13 @@
 
 import Foundation
 
-/// 单元格模型的抽象基类，提供共享实现
 open class PuzzleBaseCellModel: PuzzleCellModelProtocol {
-    /// 关联的显示组件（弱引用避免循环引用）
     public weak var uiComponent: PuzzleDisplayComponent?
     
-    /// 事件总线，用于组件间通信
     public weak var eventBus: PuzzleEventBus?
     
-    /// 在集合视图中的 frame
     public var frameInCollection: CGRect?
     
-    /// 浮动优先级，默认为0（不浮动）
     open var floatPriorityValue: Int { 0 }
     
     /// 获取单元格大小

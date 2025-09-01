@@ -28,20 +28,20 @@ public final class PuzzleGridComponent: PuzzleDisplayComponent {
 
     public let numOfLine: Int
 
-    public let itemHeight: CGFloat
+    public let rowHeight: CGFloat
 
-    public let itemSpacing: CGFloat
+    public let rowSpacing: CGFloat
 
-    public let lineSpacing: CGFloat
+    public let colSpacing: CGFloat
 
     public let viewModels: [PuzzleGridCellModel]
 
     public init(
         viewModels: [PuzzleGridCellModel],
         numOfLine: Int,
-        itemHeight: CGFloat,
-        itemSpacing: CGFloat,
-        lineSpacing: CGFloat,
+        rowHeight: CGFloat,
+        rowSpacing: CGFloat,
+        colSpacing: CGFloat,
         contentPadding: UIEdgeInsets = .zero,
         decorateViewModel: PuzzleDecorationViewModel? = nil,
         decorateViewMargin: UIEdgeInsets = .zero
@@ -54,9 +54,9 @@ public final class PuzzleGridComponent: PuzzleDisplayComponent {
         itemCount = viewModels.count
 
         self.numOfLine = numOfLine
-        self.itemHeight = itemHeight
-        self.itemSpacing = itemSpacing
-        self.lineSpacing = lineSpacing
+        self.rowHeight = rowHeight
+        self.rowSpacing = rowSpacing
+        self.colSpacing = colSpacing
     }
 
     public func calContentSize(_ context: PuzzleContext) {
@@ -67,18 +67,18 @@ public final class PuzzleGridComponent: PuzzleDisplayComponent {
         let beginY = contentPadding.top
         let beginX = contentPadding.left
 
-        let itemWidth = (width - itemSpacing * CGFloat(numOfLine - 1) - contentPadding.left - contentPadding.right) / CGFloat(numOfLine)
+        let itemWidth = (width - rowSpacing * CGFloat(numOfLine - 1) - contentPadding.left - contentPadding.right) / CGFloat(numOfLine)
 
         for (line, list) in viewModels.group(with: numOfLine).enumerated() {
             for (index, vm) in list.enumerated() {
-                vm.size = .init(width: itemWidth, height: itemHeight)
+                vm.size = .init(width: itemWidth, height: rowHeight)
 
                 let item = line * numOfLine + index
                 let frame = CGRect(
-                    x: beginX + CGFloat(index) * (itemWidth + itemSpacing),
-                    y: beginY + CGFloat(line) * (itemHeight + lineSpacing),
+                    x: beginX + CGFloat(index) * (itemWidth + rowSpacing),
+                    y: beginY + CGFloat(line) * (rowHeight + colSpacing),
                     width: itemWidth,
-                    height: itemHeight
+                    height: rowHeight
                 )
 
                 let attributes = PuzzleDisplayComponentCellAttributes(item: item, frameInComponent: frame, viewClass: vm.createViewClass(), viewModel: vm)

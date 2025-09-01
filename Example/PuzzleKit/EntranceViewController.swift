@@ -14,7 +14,7 @@ class EntranceViewController: PuzzleBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "入口"
+        title = "Demo 展示"
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -40,73 +40,15 @@ class EntranceMainComponents: PuzzleBusinessComponent {
 extension EntranceMainComponents: PuzzleBusinessComponentDatasource {
     func uiComponents(puzzleContext _: PuzzleContext) -> [PuzzleDisplayComponent] {
         return [
-            PuzzleListComponent(viewModels: [
-                EntranceViewModel(entrance: .uiComponentDemo)
-//                EntranceViewModel(entrance: .grid),
-            ])
+            PuzzleListComponent(
+                viewModels: [
+                    EntranceCellModel(entrance: .list),
+                    EntranceCellModel(entrance: .grid),
+                    EntranceCellModel(entrance: .wrap),
+                    EntranceCellModel(entrance: .refresh),
+                    EntranceCellModel(entrance: .event)
+                ]
+            )
         ]
-    }
-}
-
-class EntranceView: UICollectionViewCell, PuzzleCellProtocol {
-    let titleLabel = UILabel()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupUI() {
-        contentView.addSubview(titleLabel)
-
-        titleLabel.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.centerY.equalToSuperview()
-        }
-    }
-
-    var viewModel: EntranceViewModel?
-    func update(_ object: AnyObject) {
-        guard let vm = object as? EntranceViewModel else { return }
-        viewModel = vm
-
-        titleLabel.text = vm.entrance.rawValue
-    }
-
-    func didSelected() {
-        guard let vm = viewModel else { return }
-
-//        switch vm.entrance {
-//        case .uiComponentDemo:
-//            let vc = ComponentDemoViewController()
-//
-//        case .list:
-//        }
-    }
-}
-
-enum Entrance: String {
-    case uiComponentDemo
-    case list
-}
-
-class EntranceViewModel: PuzzleListCellModel {
-    let entrance: Entrance
-
-    init(entrance: Entrance) {
-        self.entrance = entrance
-
-        super.init()
-        height = 50
-//        super.init(height: 50)
-    }
-
-    override func createViewClass() -> UICollectionViewCell.Type {
-        EntranceView.self
     }
 }

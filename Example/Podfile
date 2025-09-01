@@ -8,5 +8,7 @@ target 'PuzzleKit_Example' do
   
   pod 'SnapKit'
   pod 'MJRefresh'
-
+  pod 'URLNavigator'
+  pod 'LookinServer'
+  
 end

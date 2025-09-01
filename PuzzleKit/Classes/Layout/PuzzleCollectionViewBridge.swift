@@ -46,6 +46,8 @@ public class PuzzleCollectionViewBridge: NSObject {
             if let uiList = loginCp.dataSource?.uiComponents(puzzleContext: context) {
                 loginCp.displayUIComponents = uiList
                 for uiCp in uiList {
+                    let uiCpContext = PuzzleUIComponentContext(puzzleViewWidth: layout.collectionViewWidth, contentMargin: uiCp.contentPadding)
+
                     uiCp.logicComponent = loginCp
                     uiCp.extra.sectionIndex = index
                     uiComponents.append(uiCp)
@@ -53,6 +55,7 @@ public class PuzzleCollectionViewBridge: NSObject {
                     for item in uiCp.vmList {
                         item.uiComponent = uiCp
                         item.eventBus = uiCp.logicComponent?.adapter?.eventBus
+                        item.updateHeight(with: uiCpContext)
                     }
                     index += 1
                 }

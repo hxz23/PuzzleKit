@@ -44,10 +44,13 @@ open class PuzzleBusinessComponent {
 
     // MARK: - 刷新相关
 
+    /// 是否支持 refresh
     public var supportRefresh = false
-    public var supportLoadMore = false
-
+    
     open func refreshAction() { }
+
+    /// 是否支持 load more
+    public var supportLoadMore = false
 
     open func loadMoreAction() { }
 
