@@ -32,6 +32,8 @@ PuzzleKit 采用组件化架构，主要包含以下几个核心层次：
 
 ## Example
 
+[Demo](./docs/demo.md)
+
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Installation
